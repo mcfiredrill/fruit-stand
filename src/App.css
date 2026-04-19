@@ -1,5 +1,13 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
 .App {
-  text-align: center;
+  min-height: 100vh;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .App-logo {
@@ -36,3 +44,16 @@
     transform: rotate(360deg);
   }
 }
+
+.sidebar {
+  padding: 16px;
+  overflow-y: auto;
+  background: #111;
+  color: #eee;
+}
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+}
+
