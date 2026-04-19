@@ -197,7 +197,7 @@ function App() {
       rendererRef.current = null;
       scene.clear();
     };
-  }, []);
+  }, [color]);
 
   return (
     <div className="App">
