@@ -41,7 +41,7 @@ function App() {
   function handleZRotationChange(event) {
     const z_rad = THREE.MathUtils.degToRad(parseInt(event.target.value));
     console.log("z rad: ", z_rad);
-    setRotationY(z_rad);
+    setRotationZ(z_rad);
   }
 
   const rotationRef = useRef({x: 0, y: 0, z: 0});
@@ -77,6 +77,8 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (rendererRef.current) return;
+
     const mount = mountRef.current;
     if(!mount) return;
     console.log('hey');
@@ -109,6 +111,7 @@ function App() {
     cameraRef.current = camera;
 
     // webgl renderer
+    console.log("making new renderer...");
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio || 1);
@@ -181,9 +184,17 @@ function App() {
       geometry.dispose();
       material.dispose();
       renderer.dispose();
+
+      if (renderer) {
+        renderer.forceContextLoss(); // 🔥 critical
+        renderer.dispose();
+      }
+
       if(renderer.domElement && mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
       }
+
+      rendererRef.current = null;
       scene.clear();
     };
   }, []);
